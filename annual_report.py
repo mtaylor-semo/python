@@ -54,8 +54,8 @@ def strip_latex( beanlist ):
 	Replaces \$ with $.
 	Reduces \textbf and \textit to bf{ and it{
 	for replacement with docx commands."""
-	beanlist=re.sub('\\\,','',beanlist) # Latex thinspace \,
-	beanlist=re.sub('~',' ', beanlist)  # Latex fixed space ~
+	beanlist = re.sub('\\\,','',beanlist) # Latex thinspace \,
+	beanlist = re.sub('~',' ', beanlist)  # Latex fixed space ~
 	beanlist = re.sub(latexnewline, '\n\n', beanlist)
 	beanlist = re.sub(latexdollar, '$', beanlist)
 	beanlist = re.sub(latexmedskip,"",beanlist)
