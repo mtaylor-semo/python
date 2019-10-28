@@ -15,10 +15,10 @@ IAdict = \
 IBdict = \
 	{0: "Major revision of existing courses.",\
 	 1: "New course development.",\
-	 2: 'Program development.',
-	 3:	'Obtaining internal funding, or applying for or obtaining external funding, for the improvement of teaching.',\
-	 4: 'Pedagogical, \\textbf{peer-reviewed} publication. (Note: A specific achievement may be included here or under Professional Growth, but not both.)',\
-	 5: 'Including students in research, with appropriate justification of level of effort. (Note: a specific achievement may be listed here or under section II.B.10, but not both)',\
+	 2: "Program development.",
+	 3:	"Obtaining internal funding, or applying for or obtaining external funding, for the improvement of teaching.",\
+	 4: "Pedagogical, \\textbf{peer-reviewed} publication. (Note: A specific achievement may be included here or under Professional Growth, but not both.)",\
+     5: "Including students in research, with appropriate justification of level of effort. (Note: a specific achievement may be listed here or under section \\textsc{ii.b.10}, but not both)",\
 	 6: "Conducting readings, independent study, internships, etc., with appropriate justification of level of effort.",\
 	 7: "Other, as documented and justified as to level of effort."}
 
@@ -29,14 +29,14 @@ ICdict = \
 	 3: "Participation in organized activities that contribute directly or indirectly to improvement in teaching techniques.",\
 	 4: "Applying for internal funding for the improvement of teaching.",\
 	 5: "Pedagogical presentation or non peer-reviewed publication. (A specific achievement may be included here or under Professional Growth, but not both.)",\
-	 6: "Including students in research. (Note: a specific achievement may be listed here or under section II.B.10, but not both.)",\
+     6: "Including students in research. (Note: a specific achievement may be listed here or under section \\textsc{ii.b.10}, but not both.)",\
 	 7: "Conducting readings, independent study, internships.",\
-	 8: "Sharing teaching expertise with faculty and teaching assistants. (Note: a specific achievement may be listed here or under section III.B.9, but not both.)",\
+     8: "Sharing teaching expertise with faculty and teaching assistants. (Note: a specific achievement may be listed here or under section \\textsc{iii.b.9}, but not both.)",\
 	 9: "Other, as documented."}
 
 IIAdict = \
-	{0: "Publication of \\textbf{peer-reviewed} original scholarly work in a journal, electronic journal, web site, book, or book chapter. See Supporting Material II.A.1.",\
-	 1: "Publication of a \\textbf{peer-reviewed} literature review of original research in a journal, electronic journal, web site, book, or book chapter. See Supporting Material II.A.2.",\
+    {0: "Publication of \\textbf{peer-reviewed} original scholarly work in a journal, electronic journal, web site, book, or book chapter. See Supporting Material \\textsc{ii.a.1}.",\
+     1: "Publication of a \\textbf{peer-reviewed} literature review of original research in a journal, electronic journal, web site, book, or book chapter. See Supporting Material \\textsc{ii.a.2}.",\
 	 2: "Publication of a \\textbf{peer-reviewed} textbook chapter, text-related web site, or ancillary materials.",\
 	 3: "Receipt of external funding to support scholarly work (this includes external contracts).",\
 	 4:	"Scholarly work in progress (as documented by narrative with appropriate justification of level of effort).",\
@@ -44,16 +44,16 @@ IIAdict = \
 	 6: "Other, as documented and justified as to level of effort."}
 
 IIBdict = \
-	{0: "Presentation of original scholarly work at professional meetings. See Supporting Material II.B.1.",\
+    {0: "Presentation of original scholarly work at professional meetings. See Supporting Material \\textsc{ii.b.1}.",\
 	 1: "Invited presentations at other institutions or professional meetings.",\
-	 2: "Publication/preparation of technical reports. See Supporting Material II.B.3.",\
+     2: "Publication/preparation of technical reports. See Supporting Material \\textsc{ii.b.3}.",\
 	 3: "Publication of non-peer reviewed articles, book reviews, or book chapters.",\
 	 4: "Publication of manuals, brochures, web pages, etc.",\
 	 5: "Production or maintenance of public databases.",\
 	 6:	"Peer-review of journals, books, book chapters or grants.",\
 	 7: "Internal funding received to support scholarly work.",\
 	 8: "External funding applied for, but not received.",\
-	 9: "Participation in graduate or undergraduate student scholarly work. (Note: a specific achievement may be listed here or under section I.B.6 or I.C.7, but not both.)",\
+     9: "Participation in graduate or undergraduate student scholarly work. (Note: a specific achievement may be listed here or under section \\textsc{i.b.6} or \\textsc{i.c.7}, but not both.)",\
 	 10: "Contribution to public scholarly databases (e.g., GenBank).",\
 	 11: "Other, as documented."}
 
@@ -83,7 +83,7 @@ IIIBdict = \
 	 5: "Representation of the Department in support of either on- or off-campus activities that promote the University.",\
 	 6: "Submission and/or receipt of grants in support of institutional programs.",\
 	 7: "Contributions to interdisciplinary programs.",\
-	 8: "Sharing expertise with other faculty members. (Note: a specific achievement may be listed here or under section I.C.9, but not both.)",\
+     8: "Sharing expertise with other faculty members. (Note: a specific achievement may be listed here or under section \\textsc{i.c.9}, but not both.)",\
 	 9: "Service to the region that utilizes his/her professional expertise.",\
 	 10: "Supportive participation in professional organizations.",\
 	 11: "Other, as documented. (Non-tenure track faculty may include items from section II, Professional Growth, which pertain to service in a broad context)."}
@@ -160,6 +160,8 @@ def print_section( secName, dictName ):
 			else:
 				outFile.write('\t\\begin{description}[font=\\normalfont]\n')
 			for i in xrange(0,l):
+				if beans[i][2].startswith('AY'):
+					beans[i][2] = string.replace(beans[i][2],'AY','\\textsc{ay}')
 				outFile.write('\t\t\\item[\\small ' + beans[i][2] + '] ' + beans[i][3] + '\n')
 
 				if len(beans[i]) == 5:
