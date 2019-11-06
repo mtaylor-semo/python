@@ -1,4 +1,5 @@
 #! /usr/bin/env python
+# -*- coding: utf-8 -*-
 #from __future__ import print_function
 
 import re
@@ -106,7 +107,9 @@ def print_section_ia( secName, dictName ):
 		beans = [bean for bean in secName if int(bean[1]) == (m+1)]
 
 		if m == 0:
-			outFile.write('\input{evaluation_table.tex}\n\n')
+			outFile.write('\n\input{evaluation_preamble}\n\n')
+			outFile.write('\n\input{evaluation_table_idea.tex}\n\n')
+			outFile.write('\n\input{evaluation_table_smart.tex}\n\n')
 			outFile.write('\input{narrative_reflective.tex}\n\n')
 		else:
 			if m == 1:
@@ -147,7 +150,7 @@ def print_section( secName, dictName ):
 		outFile.write('\\item ' + dictName[m])
 
 		beans = [bean for bean in secName if int(bean[1]) == (m+1)]
-
+		
  		if beans[0][-1] == 'N/A':
  			outFile.write('\n\t\\begin{description}[font=\\normalfont]\n')
  			outFile.write('\t\t\\item[N/A]\n')
@@ -201,8 +204,10 @@ sectionIIC = [bean for bean in myBeans if (bean[0] == 'IIC')]
 sectionIIIA = [bean for bean in myBeans if (bean[0] == 'IIIA')]
 sectionIIIB = [bean for bean in myBeans if (bean[0] == 'IIIB')]
 
-outFile = open('dossier_sections.tex','w')
+# outFile = open('dossier_sections.tex','w')
 
+outFile = open('dossier_teaching.tex','w')
+ 
 # Begin Effective Teaching
 outFile.write('\\MainSection{I: Teaching Effectiveness}\n\n')
 outFile.write('\input{narrative_current.tex}\n\n')
@@ -214,17 +219,20 @@ print_section_ia(sectionIA, IAdict)
 
 outFile.write('\n\\SubSection{B: Significant Teaching Achievements}\n\n'),
 outFile.write('\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
- 
-print_section(sectionIB, IBdict)
 
+print_section(sectionIB, IBdict)
 
 outFile.write('\n\\SubSection{C: Teaching Achievements}\n\n',)
 outFile.write('\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
 
 print_section(sectionIC, ICdict)
 
+outFile.close()
+
 
 # Begin Professional Development
+outFile = open('dossier_professional.tex','w')
+ 
 outFile.write('\MainSection{II: Professional Growth}\n\n')
 outFile.write('\SubSection{A: Significant Scholarly Achievements}\n\n')
 outFile.write('\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
@@ -238,7 +246,11 @@ outFile.write('\n\\SubSection{C: Continuing Education Achievements}\n\n')
 outFile.write('\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
 print_section(sectionIIC, IICdict)
 
+outFile.close()
+
 # Begin Service
+outFile = open('dossier_service.tex','w')
+ 
 outFile.write('\\MainSection{III: Service}\n\n')
 outFile.write('\\SubSection{A: Significant Achievements in Governance or Service}\n\n')
 outFile.write('\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
