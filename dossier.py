@@ -1,13 +1,13 @@
-#! /usr/bin/env python
+#! /usr/bin/env python3
 # -*- coding: utf-8 -*-
-#from __future__ import print_function
+# from __future__ import print_function
 
 import re
 import string
 
-## Dictionary that contains each of the achievements
-## for each of the three main categories: 
-## Teaching (I), Professional Development (II), and Service (III).
+# Dictionary that contains each of the achievements
+# for each of the three main categories:
+# Teaching (I), Professional Development (II), and Service (III).
 IAdict = \
 	{0: "Student feedback on teaching performance. This may include departmental or nationally normed student evaluation data, or other evidence of students' views.",\
 	 1: "Peer evaluation of teaching performance. (Required for non-tenured faculty; optional for tenured faculty.)",\
@@ -89,108 +89,106 @@ IIIBdict = \
 	 10: "Supportive participation in professional organizations.",\
 	 11: "Other, as documented. (Non-tenure track faculty may include items from section II, Professional Growth, which pertain to service in a broad context)."}
 
+# Print section IA. This section must be handled differently
+# from all other sections due to dossier requirements.
 
-## Print section IA. This section must be handled differently
-## from all other sections due to dossier requirements.
-	 
-def print_section_ia( secName, dictName ):
+def print_section_ia(secName, dictName):
 
-	# Number of entries in IA dictionary.
-	maxitem = len(dictName)
+    # Number of entries in IA dictionary.
+    maxitem = len(dictName)
 
-	outFile.write('\n\\begin{enumerate}\n')
+    outFile.write('\n\\begin{enumerate}\n')
 
-	for m in xrange(0,maxitem):
+    for m in range(0, maxitem):
 
-		outFile.write('\\item ' + dictName[m])
+        outFile.write('\\item ' + dictName[m])
+        
+        beans = [bean for bean in secName if int(bean[1]) == (m+1)]
+        
+        if m == 0:
+            outFile.write('\n\input{evaluation_preamble}\n\n')
+            # outFile.write('\n\input{evaluation_table_idea.tex}\n\n')
+            outFile.write('\n\input{evaluation_table_smart.tex}\n\n')
+            outFile.write('\input{narrative_reflective.tex}\n\n')
+        else:
+            if m == 1:
+                outFile.write('\t\\begin{description}[font=\\normalfont]\n')
+                outFile.write('\t\t\\item[N/A] Peer evaluation is not required for tenured faculty in my department.\n')
 
-		beans = [bean for bean in secName if int(bean[1]) == (m+1)]
+                outFile.write('\t\\end{description}\n\n')
+            else:
+                if not beans:
+                    outFile.write('\t\\begin{description}[font=\\normalfont]\n')
+                    outFile.write('\t\t\\item[N/A]\n')
+                    outFile.write('\t\\end{description}\n\n')
+                else:
+                    # l = len(beans)
+                    outFile.write('\t\\begin{description}[font=\\normalfont]\n')
+                    for i in range(0, len(beans)):
 
-		if m == 0:
-			outFile.write('\n\input{evaluation_preamble}\n\n')
-			outFile.write('\n\input{evaluation_table_idea.tex}\n\n')
-			outFile.write('\n\input{evaluation_table_smart.tex}\n\n')
-			outFile.write('\input{narrative_reflective.tex}\n\n')
-		else:
-			if m == 1:
-				outFile.write('\t\\begin{description}[font=\\normalfont]\n')
-				outFile.write('\t\t\\item[N/A] Peer evaluation is not required for tenured faculty in my department.\n')
-				
-				outFile.write('\t\\end{description}\n\n')
-			else:
-				if not beans:  
-					outFile.write('\t\\begin{description}[font=\\normalfont]\n')
-					outFile.write('\t\t\\item[N/A]\n')
-					outFile.write('\t\\end{description}\n\n')
-				else:
-					l = len(beans)
-					outFile.write('\t\\begin{description}[font=\\normalfont]\n')
-					for i in xrange(0,l):
+                        outFile.write('\t\t\\item[\\small ' + beans[i][3] + '] ' + beans[i][4] + '\n')
+                        if len(beans[i]) == 5:
+                            print('length = 5\n')
+                            outFile.write('\n\n\t\t' + beans[i][4] + '\n')
 
-						outFile.write('\t\t\\item[\\small ' + beans[i][3] + '] ' + beans[i][4] + '\n')
-						if len(beans[i]) == 5:
-							print 'length = 5\n'
-							outFile.write('\n\n\t\t' + beans[i][4] + '\n')
+                    #outFile.write('\t\\end{description}\n\n')
 
-					outFile.write('\t\\end{description}\n\n')
-
-	outFile.write('\\end{enumerate}\n')
+    outFile.write('\\end{enumerate}\n')
 
 
-def print_section( secName, dictName ):
-	"""Print each section of the dossier, as necessary."""
+def print_section(secName, dictName):
+    """Print each section of the dossier, as necessary."""
 
-	# Number of entries in IA dictionary.
-	maxitem = len(dictName)
+    # Number of entries in IA dictionary.
+    maxitem = len(dictName)
 
-	outFile.write('\n\\begin{enumerate}\n')
+    outFile.write('\n\\begin{enumerate}\n')
 
-	for m in xrange(0,maxitem):
+    for m in range(0, maxitem):
 
-		outFile.write('\\item ' + dictName[m])
+        outFile.write('\\item ' + dictName[m])
 
-		beans = [bean for bean in secName if int(bean[1]) == (m+1)]
-		
- 		if beans[0][-1] == 'N/A':
- 			outFile.write('\n\t\\begin{description}[font=\\normalfont]\n')
- 			outFile.write('\t\t\\item[N/A]\n')
- 			outFile.write('\t\\end{description}\n\n')
-		else:
-			l = len(beans)
-			if beans[0][2].startswith('AY'):
-				outFile.write('\t\\begin{description}[leftmargin=1.75cm, font=\\normalfont]\n')
-				beans[0][2] = string.replace(beans[0][2],'AY','\\textsc{ay}')
-			else:
-				outFile.write('\t\\begin{description}[font=\\normalfont]\n')
-			for i in xrange(0,l):
-				if beans[i][2].startswith('AY'):
-					beans[i][2] = string.replace(beans[i][2],'AY','\\textsc{ay}')
-				outFile.write('\t\t\\item[\\small ' + beans[i][2] + '] ' + beans[i][3] + '\n')
+        beans = [bean for bean in secName if int(bean[1]) == (m+1)]
 
-				if len(beans[i]) == 5:
-					outFile.write('\n\n\t\t' + beans[i][4] + '\n')
+        if beans[0][-1] == 'N/A':
+            outFile.write('\n\t\\begin{description}[font=\\normalfont]\n')
+            outFile.write('\t\t\\item[N/A]\n')
+            outFile.write('\t\\end{description}\n\n')
+        else:
+            # l = len(beans)
+            if beans[0][2].startswith('AY'):
+                outFile.write('\n\t\\begin{description}[leftmargin=1.75cm, font=\\normalfont]\n')
+                beans[0][2] = str.replace(beans[0][2], 'AY', '\\textsc{ay}')
+            else:
+                outFile.write('\n\t\\begin{description}[font=\\normalfont]\n')
+            for i in range(0, len(beans)):
+                if beans[i][2].startswith('AY'):
+                    beans[i][2] = str.replace(beans[i][2], 'AY', '\\textsc{ay}')
+                outFile.write('\t\t\\item[\\small ' + beans[i][2] + '] ' + beans[i][3] + '\n')
 
-			outFile.write('\t\\end{description}\n\n')
+                if len(beans[i]) == 5:
+                    outFile.write('\n\n\t\t' + beans[i][4] + '\n')
 
-	outFile.write('\\end{enumerate}\n')
-	
+            outFile.write('\t\\end{description}\n\n')
+
+    outFile.write('\\end{enumerate}\n')
 
 
 InFileName = 'dossier_beans.txt'
 with open(InFileName, 'r') as f:
-	myFile = [line.strip('\n') for line in f if line.strip()]
-	myBeans = [line.split('\t') for line in myFile if not line.startswith('#')]
+    myFile = [line.strip('\n') for line in f if line.strip()]
+    myBeans = [line.split('\t') for line in myFile if not line.startswith('#')]
 f.close()
 
 bean_len = len(myBeans)
 
-for counter in xrange(0,bean_len):
+for counter in range(0, bean_len):
 
-	first_bean = re.split('([0-9]+)', myBeans[counter][0])
-
-	myBeans[counter].remove(myBeans[counter][0])
-	myBeans[counter].insert(0, first_bean[1])
-	myBeans[counter].insert(0, first_bean[0])
+    first_bean = re.split('([0-9]+)', myBeans[counter][0])
+    
+    myBeans[counter].remove(myBeans[counter][0])
+    myBeans[counter].insert(0, first_bean[1])
+    myBeans[counter].insert(0, first_bean[0])
 
 
 sectionIA = [bean for bean in myBeans if (bean[0] == 'IA')]
@@ -206,24 +204,27 @@ sectionIIIB = [bean for bean in myBeans if (bean[0] == 'IIIB')]
 
 # outFile = open('dossier_sections.tex','w')
 
-outFile = open('dossier_teaching.tex','w')
- 
+outFile = open('dossier_teaching.tex', 'w')
+
 # Begin Effective Teaching
 outFile.write('\\MainSection{I: Teaching Effectiveness}\n\n')
 outFile.write('\input{narrative_current.tex}\n\n')
 
 outFile.write('\\SubSection{A: Teaching Performance}\n\n'),
-outFile.write('\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
-
+outFile.write(
+    '\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
+print(sectionIC[1][0])
 print_section_ia(sectionIA, IAdict)
 
 outFile.write('\n\\SubSection{B: Significant Teaching Achievements}\n\n'),
-outFile.write('\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
+outFile.write(
+    '\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
 
 print_section(sectionIB, IBdict)
 
 outFile.write('\n\\SubSection{C: Teaching Achievements}\n\n',)
-outFile.write('\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
+outFile.write(
+    '\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
 
 print_section(sectionIC, ICdict)
 
@@ -231,33 +232,39 @@ outFile.close()
 
 
 # Begin Professional Development
-outFile = open('dossier_professional.tex','w')
- 
+outFile = open('dossier_professional.tex', 'w')
+
 outFile.write('\MainSection{II: Professional Growth}\n\n')
 outFile.write('\SubSection{A: Significant Scholarly Achievements}\n\n')
-outFile.write('\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
+outFile.write(
+    '\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
 print_section(sectionIIA, IIAdict)
 
 outFile.write('\n\\SubSection{B: Scholarly Achievements}\n\n')
-outFile.write('\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
+outFile.write(
+    '\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
 print_section(sectionIIB, IIBdict)
 
 outFile.write('\n\\SubSection{C: Continuing Education Achievements}\n\n')
-outFile.write('\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
+outFile.write(
+    '\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
 print_section(sectionIIC, IICdict)
 
 outFile.close()
 
 # Begin Service
-outFile = open('dossier_service.tex','w')
- 
+outFile = open('dossier_service.tex', 'w')
+
 outFile.write('\\MainSection{III: Service}\n\n')
-outFile.write('\\SubSection{A: Significant Achievements in Governance or Service}\n\n')
-outFile.write('\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
+outFile.write(
+    '\\SubSection{A: Significant Achievements in Governance or Service}\n\n')
+outFile.write(
+    '\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
 print_section(sectionIIIA, IIIAdict)
 
 outFile.write('\n\\SubSection{B: Achievements in Governance or Service}\n\n')
-outFile.write('\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
+outFile.write(
+    '\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
 print_section(sectionIIIB, IIIBdict)
 
 outFile.close()
