@@ -45,9 +45,9 @@ IIAdict = \
 	 6: "Other, as documented and justified as to level of effort."}
 
 IIBdict = \
-    {0: "Presentation of original scholarly work at professional meetings. See Supporting Material \\textsc{ii.b.1}.",\
+    {0: "Presentation of original scholarly work at professional meetings.",\
 	 1: "Invited presentations at other institutions or professional meetings.",\
-     2: "Publication/preparation of technical reports. See Supporting Material \\textsc{ii.b.3}.",\
+     2: "Publication/preparation of technical reports.",\
 	 3: "Publication of non-peer reviewed articles, book reviews, or book chapters.",\
 	 4: "Publication of manuals, brochures, web pages, etc.",\
 	 5: "Production or maintenance of public databases.",\
@@ -128,7 +128,6 @@ def print_section_ia(secName, dictName):
 
                         outFile.write('\t\t\\item[\\small ' + beans[i][3] + '] ' + beans[i][4] + '\n')
                         if len(beans[i]) == 5:
-                            print('length = 5\n')
                             outFile.write('\n\n\t\t' + beans[i][4] + '\n')
 
                     #outFile.write('\t\\end{description}\n\n')
@@ -213,7 +212,6 @@ outFile.write('\input{narrative_current.tex}\n\n')
 outFile.write('\\SubSection{A: Teaching Performance}\n\n'),
 outFile.write(
     '\\vspace{0.5\\baselineskip}\\hspace{0.5cm}The faculty member displays evidence of:\n\n')
-print(sectionIC[1][0])
 print_section_ia(sectionIA, IAdict)
 
 outFile.write('\n\\SubSection{B: Significant Teaching Achievements}\n\n'),
