@@ -36,8 +36,8 @@ ICdict = \
 	 9: "Other, as documented."}
 
 IIAdict = \
-    {0: "Publication of \\textbf{peer-reviewed} original scholarly work in a journal, electronic journal, web site, book, or book chapter. See Supporting Material \\textsc{ii.a.1}.",\
-     1: "Publication of a \\textbf{peer-reviewed} literature review of original research in a journal, electronic journal, web site, book, or book chapter. See Supporting Material \\textsc{ii.a.2}.",\
+    {0: "Publication of \\textbf{peer-reviewed} original scholarly work in a journal, electronic journal, web site, book, or book chapter.",\
+     1: "Publication of a \\textbf{peer-reviewed} literature review of original research in a journal, electronic journal, web site, book, or book chapter.",\
 	 2: "Publication of a \\textbf{peer-reviewed} textbook chapter, text-related web site, or ancillary materials.",\
 	 3: "Receipt of external funding to support scholarly work (this includes external contracts).",\
 	 4:	"Scholarly work in progress (as documented by narrative with appropriate justification of level of effort).",\
